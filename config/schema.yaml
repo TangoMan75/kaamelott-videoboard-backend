@@ -1,0 +1,82 @@
+# api/config/schema.yaml
+# https://schema.org/docs/full.html
+# https://api-platform.com/docs/schema-generator/configuration
+# The list of types and properties we want to use
+header: |
+    /**
+     * This file is part of the TangoMan package.
+     *
+     * Copyright (c) 2020 "Matthias Morin" <mat@tangoman.io>
+     *
+     * This source file is subject to the MIT license that is bundled
+     * with this source code in the file LICENSE.
+     */
+
+author: '"Matthias Morin" <mat@tangoman.io>'
+
+doctrine:
+    useCollection: true
+
+validator:
+    assertType: true
+
+types:
+    Clip:
+        guessFrom: Clip
+        properties:
+            # https://schema.org/Thing
+            name:          { range: 'Text',    groups: ['export', 'write:clip', 'read:clip'], nullable: false, unique: true }
+            url:           { range: 'URL',     groups: ['export', 'write:clip', 'read:clip'], nullable: false, unique: true }
+            # https://schema.org/Clip
+            endOffset:     { range: 'Integer', groups: ['export', 'write:clip', 'read:clip'] }
+            partOfEpisode: { range: 'Episode', groups: ['export', 'write:clip', 'read:clip'], cardinality: '(*..*)' }
+            startOffset:   { range: 'Integer', groups: ['export', 'write:clip', 'read:clip'] }
+            # https://schema.org/CreativeWork
+            characters:    { range: 'Person',  groups: ['export', 'write:clip', 'read:clip'], cardinality: '(*..*)' }
+            citation:      { range: 'Text',    groups: ['export', 'write:clip', 'read:clip'] }
+            thumbnailUrl:  { range: 'URL',     groups: ['export', 'write:clip', 'read:clip'], unique: true }
+            # Non standard ->
+            autoplay:      { range: 'Text',    groups: ['export', 'write:clip', 'read:clip'] }
+            duration:      { range: 'Integer', groups: ['export', 'write:clip', 'read:clip'] }
+            tags:          { range: 'Text',    groups: ['export', 'write:clip', 'read:clip'], cardinality: '(*..*)' }
+
+            # Mapping
+            # =======
+            #             
+            # | index        | ignored                   | Integer   |                      | video number (line in CSV)                    |
+            # | id           | (auto-generated)          | Integer   | nullable             | video unique hash                             |
+            # | script       | citation                  | Text      | nullable             | speech of the video                           |
+            # | title        | name                      | Text      | unique               | title of video                                |
+            # | link         | url                       | Text      | unique               | link to youtube                               |
+            # | thumbnail    | thumbnailUrl              | Text      | unique               | link to image thumb                           |
+            # | autoplay     |                           | Text      | nullable             | embed code for autoplay                       |
+            # | character    | character                 | Person[]  | nullable, ManyToMany | list names of characters acting in the video  |
+            # | episode      | episode                   | Episode[] | nullable, ManyToOne  | ex. L1T1E02                                   |
+            # | episodeTitle | ignored (same as episode) |           |                      | ex. La tarte aux myrtilles                    |
+            # | type         | ignored (same as url)     | Text      |                      | link type ("youtube" / "youtu.be")            |
+            # | keywords     | tag                       | Tag[]     | nullable             |                                               |
+
+    Episode:
+        properties:
+            # https://schema.org/Thing
+            name:          { range: 'Text', groups: ['export', 'write:episode', 'read:episode', 'read:clip'], nullable: false, unique: true }
+            # https://schema.org/Episode
+            episodeNumber: { range: 'Text', groups: ['export', 'write:episode', 'read:episode'] }
+            # Non standard ->
+            clips:         { range: 'Clip', groups: ['export', 'write:episode', 'read:episode'], cardinality: '(*..*)' }
+
+    Person:
+        properties:
+            # https://schema.org/Thing
+            alternateName: { range: 'Text', groups: ['export', 'write:person', 'read:person', 'read:clip'], nullable: false, unique: true }
+            name:          { range: 'Text', groups: ['export', 'write:person', 'read:person', 'read:clip'], nullable: false, unique: true }
+            # Non standard ->
+            clips:         { range: 'Clip', groups: ['export', 'write:person', 'read:person'], cardinality: '(*..*)' }
+
+    Tag:
+        guessFrom: Thing
+        properties:
+            # https://schema.org/Thing
+            name:  { range: 'Text', groups: ['export', 'write:tag', 'read:tag', 'read:clip'], nullable: false, unique: true }
+            # Non standard ->
+            clips: { range: 'Clip', groups: ['export', 'write:tag', 'read:tag'], cardinality: '(*..*)' }

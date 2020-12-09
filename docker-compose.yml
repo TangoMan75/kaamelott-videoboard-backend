@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: ./docker/nginx
+    container_name: kaamelott-videoboard-backend
+    volumes:
+      - ./:/www:rw,delegated
+      # Custom configuration
+      - ./docker/nginx/conf.d/symfony.conf:/etc/nginx/conf.d/symfony.conf:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /var/log/nginx/kaamelott-videoboard-backend:/var/log/nginx:rw,delegated
+    depends_on:
+      - php
+    restart: unless-stopped
+    tty: true
+    networks:
+      - tango
+    labels:
+      traefik.enable: true
+      # http local
+      traefik.http.routers.kaamelott-videoboard-backend-dev.entrypoints: web
+      traefik.http.routers.kaamelott-videoboard-backend-dev.rule: Host(`kaamelott-videoboard-backend.localhost`)
+
+  php:
+    build: ./docker/php
+    volumes:
+      - ./:/www:rw,delegated
+      # Avoid heavy I/O workloads on bind-mounted volumes
+      - /var/cache/symfony/kaamelott-videoboard-backend:/www/var/cache
+      - /var/log/symfony/kaamelott-videoboard-backend:/www/var/log
+      # Custom configuration
+      - ./docker/php/conf.d/symfony-prod.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+      # SSH keys
+      - ~/.ssh:/root/.ssh:ro
+    restart: unless-stopped
+    tty: true
+    networks:
+      - tango
+
+  # maildev:
+  #     image: maildev/maildev
+  #     container_name: maildev_docker_symfony
+  #     command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+  #     ports:
+  #       - "8081:80"
+  #     restart: unless-stopped
+  #     networks:
+  #         - tango
+
+networks:
+  tango:
+    external: true
+

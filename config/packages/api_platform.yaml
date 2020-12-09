@@ -1,0 +1,31 @@
+api_platform:
+    show_webby: false
+    title: TangoMan Kaamelott Videoboard Backend
+    version: 0.1.0
+    description: |
+      Hello and welcome to our awesome Kaamelott Videoboard !
+
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+
+    # The list of enabled formats. The first one will be the default.
+    formats:
+        jsonld:   ['application/ld+json']
+        json:     ['application/json']
+        csv:      ['text/csv']
+        html:     ['text/html']
+
+    patch_formats:
+        json: ['application/merge-patch+json']
+        jsonapi: ['application/vnd.api+json']
+
+    swagger:
+        versions: [3]
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header
+
+    collection:
+        pagination:
+            items_per_page: 30

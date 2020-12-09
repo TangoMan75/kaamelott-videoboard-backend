@@ -1,0 +1,11 @@
+# https://fakerphp.github.io/formatters
+App\Entity\Episode:
+    episode_{1..100}:
+        # https://schema.org/Thing
+        name (unique): <word()>
+
+        # https://schema.org/Episode
+        episodeNumber: <numberBetween(1,50)>
+
+        # Non standard ->
+        clips: ['@clip_<current()>']

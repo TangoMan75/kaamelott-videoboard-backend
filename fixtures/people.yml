@@ -1,0 +1,9 @@
+# https://fakerphp.github.io/formatters
+App\Entity\Person:
+    person_{1..100}:
+        # https://schema.org/Thing
+        alternateName (unique): <username()>
+        name (unique): <firstName()>
+
+        # Non standard ->
+        clips: ['@clip_<current()>']

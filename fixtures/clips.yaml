@@ -1,0 +1,16 @@
+# https://fakerphp.github.io/formatters
+App\Entity\Clip:
+    clip_{1..100}:
+        # https://schema.org/Thing
+        name (unique): <word()>
+        url: <url()>
+        # https://schema.org/Clip
+        partOfEpisode: '@episode_<current()>'
+        # https://schema.org/CreativeWork
+        characters: ['@person_<current()>']
+        citation: <paragraph(3)>
+        thumbnailUrl: <imageUrl(128,128)>
+        # Non standard ->
+        autoplay: <word()>
+        duration: <numberBetween(10,60)>
+        tags: ['@tag_<current()>']

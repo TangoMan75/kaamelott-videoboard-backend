@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Bohort",
+  	"alternateName": "bohort"
+  },
+  {
+    "name": "Karadoc",
+  	"alternateName": "karadoc"
+  },
+  {
+    "name": "Perceval",
+  	"alternateName": "perceval"
+  },
+  {
+    "name": "Léodagan",
+  	"alternateName": "leodagan"
+  },
+  {
+    "name": "Arthur",
+  	"alternateName": "arthur"
+  },
+  {
+    "name": "Dame Séli",
+  	"alternateName": "seli"
+  },
+  {
+    "name": "Guenièvre",
+  	"alternateName": "guenievre"
+  },
+  {
+    "name": "Breccan",
+  	"alternateName": "breccan"
+  },
+  {
+    "name": "Grüdü",
+  	"alternateName": "grudu"
+  },
+  {
+    "name": "La Dame du Lac",
+  	"alternateName": "damedulac"
+  },
+  {
+    "name": "Lancelot du Lac",
+  	"alternateName": "lancelot"
+  },
+  {
+    "name": "Demetra",
+  	"alternateName": "demetra"
+  },
+  {
+    "name": "Attila le Hun",
+  	"alternateName": "attila"
+  },
+  {
+    "name": "Buzit le barde",
+  	"alternateName": "barde"
+  }
+]
